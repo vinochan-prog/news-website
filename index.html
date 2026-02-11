@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Breaking News</title>
+  <title>Live News Channel</title>
   <style>
     body {
       font-family: Arial;
       background: #f4f4f4;
-      text-align: center;
+      margin: 0;
     }
-    h1 {
+    header {
       background: red;
       color: white;
       padding: 15px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .news-container {
+      padding: 20px;
     }
     .news {
       background: white;
-      margin: 20px;
-      padding: 20px;
+      margin: 15px 0;
+      padding: 15px;
       border-radius: 10px;
       box-shadow: 0 0 10px gray;
     }
@@ -25,12 +31,27 @@
 
 <body>
 
-<h1>🚨 LIVE NEWS CHANNEL</h1>
+<header>🚨 LIVE NEWS CHANNEL</header>
 
-<div class="news">
-  <h2>Breaking News</h2>
-  <p>This website is now live!</p>
-</div>
+<div class="news-container" id="news"></div>
+
+<script>
+fetch("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=YOUR_API_KEY")
+.then(res => res.json())
+.then(data => {
+  let output = "";
+  data.articles.forEach(article => {
+    output += `
+      <div class="news">
+        <h2>${article.title}</h2>
+        <p>${article.description}</p>
+        <a href="${article.url}" target="_blank">Read full news</a>
+      </div>
+    `;
+  });
+  document.getElementById("news").innerHTML = output;
+});
+</script>
 
 </body>
 </html>
